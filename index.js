@@ -1,10 +1,10 @@
 import express from 'express';
 import pool from './config/db.js';
-//import 'dotenv/config';
+import 'dotenv/config';
 
 const app = express();
 
-const puerto = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // Usar Json como dato de salida de las consultas
 app.use(express.json());
@@ -120,6 +120,6 @@ app.delete('/perrosdisponibles/:id', async (req, res) => {
 });
 
 // Start the server
-app.listen(puerto, () => {
+app.listen(PORT, () => {
     console.log('Servidor escuchando en puerto 3000');
 });
