@@ -56,7 +56,7 @@ app.get('/perrosdisponibles/:id', async (req, res) => {
         console.log("Compa Canino --> ", resConsulta)
         res.json(resConsulta[0]);
     } catch (error) {
-        res.sendStatus(500).send('Internal server error')
+        res.send(500).send('Internal server error')
     }
 });
 

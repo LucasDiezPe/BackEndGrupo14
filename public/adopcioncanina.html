@@ -8,6 +8,9 @@
         body{
             background-color: burlywood;
             color:brown;
+            margin: auto;
+            padding-left: 10%;
+            padding-right: 10%;
         }
         h1{
             text-align: center;}
@@ -15,19 +18,19 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            background-color: chocolate;
             color:blanchedalmond;
         }
 
         #perros div {
-            border: 1px solid brown;
+            border: 3px solid brown;
             padding: 20px;
             border-radius: 16px;
+            background-color: chocolate;
         }
     </style>
 </head>
 <body>
-    <h1>Compañeros Disponibles</h1>
+    <h1>Canes en Adopción</h1>
     <section id="perros">
 
     </section>
@@ -36,23 +39,25 @@
         fetch('/perrosdisponibles')
             .then(response => response.json())
             .then(data => {
-                const perros = data;
-                console.log(perros)
+                const perrosdisponibles = data;
+                console.log(perrosdisponibles)
                 const perrosContainer = document.querySelector('#perros');
 
-                perros.forEach(perro => {
+                perrosdisponibles.forEach(perro => {
                     const perroElement = document.createElement('div');
                     perroElement.innerHTML = `
                         <h2>${perro.Nombre}</h2>
                         <p>${perro.Caracter}</p>
                         <ul>
-                            <li>Id: ${perro.id}</li>
+                            <li>N°Registro: ${perro.id}</li>
                             <li>Raza: ${perro.Raza}</li>
                             <li>Tamaño: ${perro.Tamaño}</li>
+                            <li>Hogar Ideal: ${perro.HogarIdeal}</li>
+                            <li>Edad Aproximada: ${perro.Edad}</li>
                         </ul>
                         
                     `;
-                    productosContainer.appendChild(perroElement);
+                    perrosContainer.appendChild(perroElement);
                 });
             });
     </script>
