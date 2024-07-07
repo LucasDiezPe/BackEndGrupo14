@@ -9,11 +9,11 @@ const puerto = process.env.PORT || 3000;
 // Usar Json como dato de salida de las consultas
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 // Consultar la base de datos
 app.get('/perrosdisponibles', async (req, res) => {
-    const sql = `SELECT perrosdisponbles.Nombre, perrosdisponbles.Caracter,
+    const sql = `SELECT perrosdisponbles.id, perrosdisponbles.Nombre, perrosdisponbles.Caracter,
                 perrosdisponbles.Edad_Aprox AS Edad, perrosdisponbles.Castración,
                  raza.Raza_Nombre AS Raza, sizes.Size_name AS Tamaño,
                   req_hogar.Tipo AS HogarIdeal 
@@ -30,15 +30,15 @@ app.get('/perrosdisponibles', async (req, res) => {
         res.json(resConsulta);
 
     } catch (error) {
-        res.send(500).send('Internal server error')
+        res.sendStatus(500).send('Internal server error')
     }
 
 });
 
 // Consulta por id de perro
 app.get('/perrosdisponibles/:id', async (req, res) => {
-    const id = req.params.Id_perro
-    const sql = `SELECT perrosdisponbles.Nombre, perrosdisponbles.Caracter,
+    const id = req.params.id
+    const sql = `SELECT perrosdisponbles.id, perrosdisponbles.Nombre, perrosdisponbles.Caracter,
                 perrosdisponbles.Edad_Aprox AS Edad, perrosdisponbles.Castración,
                  raza.Raza_Nombre AS Raza, sizes.Size_name AS Tamaño,
                   req_hogar.Tipo AS HogarIdeal 
@@ -46,7 +46,7 @@ app.get('/perrosdisponibles/:id', async (req, res) => {
                   JOIN Raza ON perrosdisponbles.Raza=raza.Raza_id 
                   JOIN req_hogar ON perrosdisponbles.Hogar_Necesario=req_hogar.Req_id 
                   JOIN sizes ON perrosdisponbles.Tamaño_Estimado=sizes.Size_id 
-                  WHERE perrosdisponibles.Id_Perro = ?
+                  WHERE perrosdisponibles.id = ?
                   ORDER By perrosdisponbles.Nombre`;
 
     try {
@@ -56,7 +56,7 @@ app.get('/perrosdisponibles/:id', async (req, res) => {
         console.log("Compa Canino --> ", resConsulta)
         res.json(resConsulta[0]);
     } catch (error) {
-        res.send(500).send('Internal server error')
+        res.sendStatus(500).send('Internal server error')
     }
 });
 
@@ -69,22 +69,22 @@ app.post('/perrosdisponibles', async (req, res) => {
 
     try {
         const connection = await pool.getConnection()
-        const [rows] = await connection.query(sql, [perro]);
+        const [resConsulta] = await connection.query(sql, [perro]);
         connection.release();
         res.send(`
-            <h1>Producto creado con id: ${rows.insertId}</h1>
+            <h1> Hemos encontrado un Nuevo Perro N°: ${resConsulta.insertId}</h1>
         `);
     } catch (error) {
-        res.send(500).send('Internal server error')
+        res.sendStatus(500).send('Internal server error')
     }
 });
 
-// Update a specific resource
-app.put('/productos/:id', async (req, res) => {
+// Actualiar un registro de perro
+app.put('/perrosdisponibles/:id', async (req, res) => {
     const id = req.params.id;
     const perro = req.body;
 
-    const sql = `UPDATE productos SET ? WHERE id_producto = ?`;
+    const sql = `UPDATE perrosdisponibles SET ? WHERE id = ?`;
 
     try {
         const connection = await pool.getConnection()
@@ -92,29 +92,30 @@ app.put('/productos/:id', async (req, res) => {
         connection.release();
         console.log(resConsulta)
          res.send(`
-            <h1>Producto actualizado id: ${id}</h1>
+            <h1>Registro de Perro Actualizado N°: ${id}</h1>
         `);
     } catch (error) {
-        res.send(500).send('Internal server error')
+        res.sendStatus(500).send('Internal server error')
     }
 
 });
 
-// Delete a specific resource
-app.delete('/productos/:id', async (req, res) => {
+// Eliminar un registro de Perros Disponiibles
+app.delete('/perrosdisponibles/:id', async (req, res) => {
     const id = req.params.id;
-    const sql = `DELETE FROM productos WHERE id_producto = ?`;
+    const sql = `DELETE FROM perrosdisponibles WHERE id = ?`;
 
      try {
         const connection = await pool.getConnection()
-        const [rows] = await connection.query(sql, [id]);
+        const [resConsultra] = await connection.query(sql, [id]);
         connection.release();
-        console.log(rows)
+        console.log(resConsulta)
+        res.json(resConsulta);
          res.send(`
-            <h1>Producto borrado id: ${id}</h1>
+            <h1>El registro eliminado fue el N°: ${id}</h1>
         `);
     } catch (error) {
-        res.send(500).send('Internal server error')
+        res.sendStatus(500).send('Internal server error')
     }
 });
 
