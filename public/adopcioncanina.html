@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio Canes del Alma</title>
+    <style>
+        body{
+            background-color: burlywood;
+            color:brown;
+        }
+        h1{
+            text-align: center;}
+        #perros {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            background-color: chocolate;
+            color:blanchedalmond;
+        }
+
+        #perros div {
+            border: 1px solid brown;
+            padding: 20px;
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compañeros Disponibles</h1>
+    <section id="perros">
+
+    </section>
+
+    <script>
+        fetch('/perrosdisponibles')
+            .then(response => response.json())
+            .then(data => {
+                const perros = data;
+                console.log(perros)
+                const perrosContainer = document.querySelector('#perros');
+
+                perros.forEach(perro => {
+                    const perroElement = document.createElement('div');
+                    perroElement.innerHTML = `
+                        <h2>${perro.Nombre}</h2>
+                        <p>${perro.Caracter}</p>
+                        <ul>
+                            <li>Id: ${perro.id}</li>
+                            <li>Raza: ${perro.Raza}</li>
+                            <li>Tamaño: ${perro.Tamaño}</li>
+                        </ul>
+                        
+                    `;
+                    productosContainer.appendChild(perroElement);
+                });
+            });
+    </script>
+</body>
+</html>

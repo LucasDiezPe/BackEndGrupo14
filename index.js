@@ -9,7 +9,7 @@ const puerto = process.env.PORT || 3000;
 // Usar Json como dato de salida de las consultas
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(express.static('public'));
+app.use(express.static('public'));
 
 // Consultar la base de datos
 app.get('/perrosdisponibles', async (req, res) => {
