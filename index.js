@@ -21,7 +21,7 @@ app.get('/perrosdisponibles', async (req, res) => {
                   JOIN Raza ON perrosdisponbles.Raza=raza.Raza_id 
                   JOIN req_hogar ON perrosdisponbles.Hogar_Necesario=req_hogar.Req_id 
                   JOIN sizes ON perrosdisponbles.Tamaño_Estimado=sizes.Size_id 
-                  ORDER By perrosdisponbles.Nombre;`;
+                  ORDER By perrosdisponbles.Nombre`
 
     try {
         const connection = await pool.getConnection()
@@ -37,8 +37,17 @@ app.get('/perrosdisponibles', async (req, res) => {
 
 // Consulta por id de perro
 app.get('/perrosdisponibles/:id', async (req, res) => {
-    const id = req.params.id
-    const sql = `SELECT * FROM perrosdisponbles WHERE Id_Perro = ?`
+    const id = req.params.Id_perro
+    const sql = `SELECT perrosdisponbles.Nombre, perrosdisponbles.Caracter,
+                perrosdisponbles.Edad_Aprox AS Edad, perrosdisponbles.Castración,
+                 raza.Raza_Nombre AS Raza, sizes.Size_name AS Tamaño,
+                  req_hogar.Tipo AS HogarIdeal 
+                  FROM perrosdisponbles 
+                  JOIN Raza ON perrosdisponbles.Raza=raza.Raza_id 
+                  JOIN req_hogar ON perrosdisponbles.Hogar_Necesario=req_hogar.Req_id 
+                  JOIN sizes ON perrosdisponbles.Tamaño_Estimado=sizes.Size_id 
+                  WHERE perrosdisponibles.Id_Perro = ?
+                  ORDER By perrosdisponbles.Nombre`;
 
     try {
         const connection = await pool.getConnection()
@@ -50,17 +59,17 @@ app.get('/perrosdisponibles/:id', async (req, res) => {
         res.send(500).send('Internal server error')
     }
 });
-/*
-// Create a new resource
-app.post('/productos', async (req, res) => {
 
-    const producto = req.body;
+// Crear un nuevo Perro
+app.post('/perrosdisponibles', async (req, res) => {
 
-    const sql = `INSERT INTO productos SET ?`;
+    const perro = req.body;
+
+    const sql = `INSERT INTO perrosdisponibles SET ?`;
 
     try {
         const connection = await pool.getConnection()
-        const [rows] = await connection.query(sql, [producto]);
+        const [rows] = await connection.query(sql, [perro]);
         connection.release();
         res.send(`
             <h1>Producto creado con id: ${rows.insertId}</h1>
@@ -73,15 +82,15 @@ app.post('/productos', async (req, res) => {
 // Update a specific resource
 app.put('/productos/:id', async (req, res) => {
     const id = req.params.id;
-    const producto = req.body;
+    const perro = req.body;
 
     const sql = `UPDATE productos SET ? WHERE id_producto = ?`;
 
     try {
         const connection = await pool.getConnection()
-        const [rows] = await connection.query(sql, [producto, id]);
+        const [resConsulta] = await connection.query(sql, [perro, id]);
         connection.release();
-        console.log(rows)
+        console.log(resConsulta)
          res.send(`
             <h1>Producto actualizado id: ${id}</h1>
         `);
@@ -108,7 +117,7 @@ app.delete('/productos/:id', async (req, res) => {
         res.send(500).send('Internal server error')
     }
 });
-*/
+
 // Start the server
 app.listen(puerto, () => {
     console.log('Servidor escuchando en puerto 3000');
