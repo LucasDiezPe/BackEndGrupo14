@@ -18,7 +18,7 @@ app.get('/perrosdisponibles', async (req, res) => {
                  raza.Raza_Nombre AS Raza, sizes.Size_name AS Tamaño,
                   req_hogar.Tipo AS HogarIdeal 
                   FROM perrosdisponbles 
-                  JOIN Raza ON perrosdisponbles.Raza=raza.Raza_id 
+                  JOIN raza ON perrosdisponbles.Raza=raza.Raza_id 
                   JOIN req_hogar ON perrosdisponbles.Hogar_Necesario=req_hogar.Req_id 
                   JOIN sizes ON perrosdisponbles.Tamaño_Estimado=sizes.Size_id 
                   ORDER By perrosdisponbles.Nombre`
@@ -43,7 +43,7 @@ app.get('/perrosdisponibles/:id', async (req, res) => {
        raza.Raza_Nombre AS Raza, sizes.Size_name AS Tamaño,
        req_hogar.Tipo AS HogarIdeal 
 FROM perrosdisponbles 
-JOIN Raza ON perrosdisponbles.Raza=raza.Raza_id 
+JOIN raza ON perrosdisponbles.Raza=raza.Raza_id 
 JOIN req_hogar ON perrosdisponbles.Hogar_Necesario=req_hogar.Req_id 
 JOIN sizes ON perrosdisponbles.Tamaño_Estimado=sizes.Size_id 
 WHERE perrosdisponbles.id = ?
