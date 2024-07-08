@@ -1,6 +1,14 @@
 import { createPool } from 'mysql2/promise';
 
 // creacion de pool de conexiones
+/*
+const pool = createPool({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'refugiocanino',
+    connectionLimit: 5 // limite de conexiones
+});*/
 const pool = createPool({
     host: process.env.MYSQL_ADDON_HOST,
     user: process.env.MYSQL_ADDON_USER,
