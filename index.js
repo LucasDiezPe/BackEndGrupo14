@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from './config/db.js';
-//import 'dotenv/config';
+import 'dotenv/config';
 
 const app = express();
 
@@ -123,6 +123,6 @@ app.delete('/perrosdisponibles/:id', async (req, res) => {
 });
 
 // Start the server
-app.listen(puerto, () => {
+app.listen(PORT, () => {
     console.log('Servidor escuchando en puerto 3000');
 });
