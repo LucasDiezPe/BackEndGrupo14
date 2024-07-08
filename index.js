@@ -30,8 +30,8 @@ app.get('/perrosdisponibles', async (req, res) => {
         res.json(resConsulta);
 
     } catch (error) {
-        res.sendStatus(500).send('Internal server error')
-    }
+         res.status(500).send({ message: 'Internal server error', error: error });
+}
 
 });
 
