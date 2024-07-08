@@ -4,7 +4,7 @@ import 'dotenv/config';
 
 const app = express();
 
-const puerto = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // Usar Json como dato de salida de las consultas
 app.use(express.json());
