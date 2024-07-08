@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Consultar la base de datos
-app.get('/perrosdisponibles', async (req, res) => {
+app.get('/perrosdisponbles', async (req, res) => {
     const sql = `SELECT perrosdisponbles.id, perrosdisponbles.Nombre, perrosdisponbles.Caracter,
                 perrosdisponbles.Edad_Aprox AS Edad, perrosdisponbles.Castración,
                  raza.Raza_Nombre AS Raza, sizes.Size_name AS Tamaño,
@@ -36,7 +36,7 @@ app.get('/perrosdisponibles', async (req, res) => {
 });
 
 // Consulta por id de perro
-app.get('/perrosdisponibles/:id', async (req, res) => {
+app.get('/perrosdisponbles/:id', async (req, res) => {
     const id = req.params.id;
     const sql = `SELECT perrosdisponbles.id, perrosdisponbles.Nombre, perrosdisponbles.Caracter,
        perrosdisponbles.Edad_Aprox AS Edad, perrosdisponbles.Castración,
@@ -61,7 +61,7 @@ ORDER BY perrosdisponbles.Nombre;`;
 });
 
 // Crear un nuevo Perro
-app.post('/perrosdisponibles', async (req, res) => {
+app.post('/perrosdisponbles', async (req, res) => {
     const perro = req.body;
 
     const sql = `INSERT INTO perrosdisponbles SET ?`; 
@@ -81,7 +81,7 @@ app.post('/perrosdisponibles', async (req, res) => {
 });
 
 // Actualiar un registro de perro
-app.put('/perrosdisponibles/:id', async (req, res) => {
+app.put('/perrosdisponbles/:id', async (req, res) => {
     const id = req.params.id;
     const perro = req.body;
 
@@ -102,7 +102,7 @@ app.put('/perrosdisponibles/:id', async (req, res) => {
 });
 
 // Eliminar un registro de Perros Disponiibles
-app.delete('/perrosdisponibles/:id', async (req, res) => {
+app.delete('/perrosdisponbles/:id', async (req, res) => {
     const id = req.params.id;
     const sql = `DELETE FROM perrosdisponbles WHERE id = ?`;
 
